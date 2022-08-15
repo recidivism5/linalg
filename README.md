@@ -1,6 +1,6 @@
 This library has mat4 and quaternion functions. Here's the header:
 
-```
+```c
 union FVec3 {
     struct { float x, y, z; };
     float arr[3];
