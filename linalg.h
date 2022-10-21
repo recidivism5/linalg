@@ -1,34 +1,37 @@
 union FVec3 {
-    struct { float x, y, z; };
-    float arr[3];
+	struct { float x, y, z; };
+	float arr[3];
+};
+struct Quaternion {
+	float w, x, y, z;
 };
 void fvec3Normalize(union FVec3 *v);
 void fvec3InvScale(union FVec3 s, union FVec3 *out);
 void fvec3Scale(union FVec3 s, union FVec3 *out);
+void fvec3Add(union FVec3 *dst, union FVec3 src);
 union FVec3 fvec3_add(union FVec3 a, union FVec3 b);
+union FVec3 fvec3_sub(union FVec3 a, union FVec3 b);
+union FVec3 fvec3_scale(float s, union FVec3 v);
+union FVec3 fvec3_norm(union FVec3 v);
+union FVec3 fvec3_rescale(float s, union FVec3 v);
+union FVec3 fvec3_midpoint(union FVec3 a, union FVec3 b);
+float fvec3_length(union FVec3 v);
+float fvec3_dist(union FVec3 a, union FVec3 b);
 void clampEuler(union FVec3 *e);
-
-struct IVec3 {
-    int x, y, z;
-};
-
-struct Quaternion {
-    float w, x, y, z;
-};
 void quatSetIdentity(struct Quaternion *q);
 void quatInverse(struct Quaternion q, struct Quaternion *out);
 void quatNormalize(struct Quaternion *q);
-void quatFrom(struct Quaternion *q, union FVec3 axis, float angle);
-void quatFromX(struct Quaternion *q, float angle);
-void quatFromY(struct Quaternion *q, float angle);
-void quatFromZ(struct Quaternion *q, float angle);
+struct Quaternion quat_from(union FVec3 axis, float angle);
+struct Quaternion quat_fromX(float angle);
+struct Quaternion quat_fromY(float angle);
+struct Quaternion quat_fromZ(float angle);
 void quatMult(struct Quaternion a, struct Quaternion b, struct Quaternion *out);
 void quatFromEuler(struct Quaternion *q, union FVec3 e);
-void quatRotateFVec3(struct Quaternion q, union FVec3 *v);
+struct Quaternion quat_from_euler(union FVec3 e);
+void rotateFVec3(struct Quaternion q, union FVec3 *v);
+union FVec3 fvec3_rotated(union FVec3 v, struct Quaternion q);
 void quatToMat4(struct Quaternion q, float *m);
-
 void mat4SetIdentity(float* m);
-void mat4SetEqual(float* target, float* source);
 void mat4Transpose(float *m);
 void mat4SetPerspective(float* m, float fov_radians, float aspect_ratio, float near, float far);
 void mat4SetScale(float *m, float x, float y, float z);
