@@ -31,6 +31,16 @@ void fvec3Add(union FVec3 *dst, union FVec3 src){
 	dst->y += src.y;
 	dst->z += src.z;
 }
+void rotateFVec3(struct Quaternion q, union FVec3 *v){
+	float x,y,z;
+	x = 2*(q.y*q.w*v->z - q.z*q.w*v->y + q.y*q.x*v->y + q.z*q.x*v->z) + q.w*q.w*v->x + q.x*q.x*v->x - q.y*q.y*v->x - q.z*q.z*v->x;
+	y = 2*(q.x*q.y*v->x + q.z*q.y*v->z + q.w*q.z*v->x - q.x*q.w*v->z) + q.w*q.w*v->y - q.x*q.x*v->y + q.y*q.y*v->y - q.z*q.z*v->y;
+	z = 2*(q.x*q.z*v->x + q.y*q.z*v->y - q.w*q.y*v->x + q.w*q.x*v->y) + q.w*q.w*v->z - q.x*q.x*v->z - q.y*q.y*v->z + q.z*q.z*v->z;
+
+	v->x = x;
+	v->y = y;
+	v->z = z;
+}
 union FVec3 fvec3_add(union FVec3 a, union FVec3 b){
 	union FVec3 r = {
 		a.x+b.x,
@@ -72,11 +82,36 @@ union FVec3 fvec3_midpoint(union FVec3 a, union FVec3 b){
 	j.z *= 0.5f;
 	return fvec3_add(a,j);
 }
+union FVec3 fvec3_rotated(union FVec3 v, struct Quaternion q){
+	union FVec3 r;
+	float 
+		ww = q.w*q.w,
+		xx = q.x*q.x,
+		yy = q.y*q.y,
+		zz = q.z*q.z,
+
+		wx = q.w*q.x,
+		wy = q.w*q.y,
+		wz = q.w*q.z,
+
+		xy = q.x*q.y,
+		xz = q.x*q.z,
+
+		yz = q.y*q.z;
+
+	r.x = 2*(wy*v.z - wz*v.y + xy*v.y + xz*v.z) + ww*v.x + xx*v.x - yy*v.x - zz*v.x;
+	r.y = 2*(xy*v.x + yz*v.z + wz*v.x - wx*v.z) + ww*v.y - xx*v.y + yy*v.y - zz*v.y;
+	r.z = 2*(xz*v.x + yz*v.y - wy*v.x + wx*v.y) + ww*v.z - xx*v.z - yy*v.z + zz*v.z;
+	return r;
+}
 float fvec3_length(union FVec3 v){
 	return sqrtf(v.x*v.x + v.y*v.y + v.z*v.z);
 }
 float fvec3_dist(union FVec3 a, union FVec3 b){
 	return fvec3_length(fvec3_sub(a,b));
+}
+float fvec3_angle_between(union FVec3 a, union FVec3 b){
+	return acosf((a.x*b.x + a.y*b.y + a.z*b.z)/(fvec3_length(a)*fvec3_length(b)));
 }
 void clampEuler(union FVec3 *e){
 	float fp = 4*M_PI;
@@ -173,38 +208,6 @@ struct Quaternion quat_from_euler(union FVec3 e){
 	q.y = cx*sy*cz + sx*cy*sz;
 	q.z = cx*cy*sz - sx*sy*cz;
 	return q;
-}
-void rotateFVec3(struct Quaternion q, union FVec3 *v){
-	float x,y,z;
-	x = 2*(q.y*q.w*v->z - q.z*q.w*v->y + q.y*q.x*v->y + q.z*q.x*v->z) + q.w*q.w*v->x + q.x*q.x*v->x - q.y*q.y*v->x - q.z*q.z*v->x;
-	y = 2*(q.x*q.y*v->x + q.z*q.y*v->z + q.w*q.z*v->x - q.x*q.w*v->z) + q.w*q.w*v->y - q.x*q.x*v->y + q.y*q.y*v->y - q.z*q.z*v->y;
-	z = 2*(q.x*q.z*v->x + q.y*q.z*v->y - q.w*q.y*v->x + q.w*q.x*v->y) + q.w*q.w*v->z - q.x*q.x*v->z - q.y*q.y*v->z + q.z*q.z*v->z;
-
-	v->x = x;
-	v->y = y;
-	v->z = z;
-}
-union FVec3 fvec3_rotated(union FVec3 v, struct Quaternion q){
-	union FVec3 r;
-	float 
-		ww = q.w*q.w,
-		xx = q.x*q.x,
-		yy = q.y*q.y,
-		zz = q.z*q.z,
-
-		wx = q.w*q.x,
-		wy = q.w*q.y,
-		wz = q.w*q.z,
-
-		xy = q.x*q.y,
-		xz = q.x*q.z,
-
-		yz = q.y*q.z;
-
-	r.x = 2*(wy*v.z - wz*v.y + xy*v.y + xz*v.z) + ww*v.x + xx*v.x - yy*v.x - zz*v.x;
-	r.y = 2*(xy*v.x + yz*v.z + wz*v.x - wx*v.z) + ww*v.y - xx*v.y + yy*v.y - zz*v.y;
-	r.z = 2*(xz*v.x + yz*v.y - wy*v.x + wx*v.y) + ww*v.z - xx*v.z - yy*v.z + zz*v.z;
-	return r;
 }
 void quatToMat4(struct Quaternion q, float *m){
 	m[0]  = 1 - 2*(q.y*q.y + q.z*q.z);
