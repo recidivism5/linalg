@@ -3,13 +3,6 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-union FVec3 {
-	struct { float x, y, z; };
-	float arr[3];
-};
-struct Quaternion {
-	float w, x, y, z;
-};
 void fvec3Normalize(union FVec3 *v){
 	float d = 1.0f / sqrtf(v->x*v->x + v->y*v->y + v->z*v->z);
 	v->x *= d;
