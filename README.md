@@ -49,4 +49,4 @@ void mat4Mult(float* m0, float* m1, float* out);
 
 - FVec3 is a vector of 3 floats
 - Quaternion is a vector of 4 floats
-- mat4 is an array of 16 floats, called "m" in functions using mat4s
+- mat4 is an array of 16 floats, called "m" in functions using mat4s. It is treated as column major.
