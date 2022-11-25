@@ -162,7 +162,7 @@ Quaternion quat_fromZ(float angle){
 	q.z = sinf(angle * 0.5f);
 	return q;
 }
-void quatMult(Quaternion a, Quaternion b, Quaternion *out){
+void quatMul(Quaternion a, Quaternion b, Quaternion *out){
 	out->w = a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z;
 	out->x = a.x*b.w + a.w*b.x + a.y*b.z - a.z*b.y;
 	out->y = a.w*b.y - a.x*b.z + a.y*b.w + a.z*b.x;

@@ -32,7 +32,7 @@ Quaternion quat_from(FVec3 axis, float angle);
 Quaternion quat_fromX(float angle);
 Quaternion quat_fromY(float angle);
 Quaternion quat_fromZ(float angle);
-void quatMult(Quaternion a, Quaternion b, Quaternion *out);
+void quatMul(Quaternion a, Quaternion b, Quaternion *out);
 void quatFromEuler(Quaternion *q, FVec3 e);
 Quaternion quat_from_euler(FVec3 e);
 void quatToMat4(Quaternion q, float *m);
