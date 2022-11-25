@@ -45,7 +45,7 @@ void mat4SetRotationX(float* m, float theta);
 void mat4SetRotationY(float* m, float theta);
 void mat4SetRotationZ(float* m, float theta);
 void mat4Lookat(float *m, float x, float y, float z, float tx, float ty, float tz);
-void mat4Mult(float* m0, float* m1, float* out);
+void mat4Mul(float* m0, float* m1, float* out);
 ```
 
 - FVec3 is a vector of 3 floats

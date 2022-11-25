@@ -386,7 +386,7 @@ void mat4Lookat(float *m, float x, float y, float z, float tx, float ty, float t
 	m[14] = kx*x + ky*y + kz*z;
 	m[15] = 1.0f;
 }
-void mat4Mult(float* m0, float* m1, float* out){
+void mat4Mul(float* m0, float* m1, float* out){
 	out[0] = m0[0] * m1[0] + m0[4] * m1[1] + m0[8] * m1[2] + m0[12] * m1[3];
 	out[1] = m0[1] * m1[0] + m0[5] * m1[1] + m0[9] * m1[2] + m0[13] * m1[3];
 	out[2] = m0[2] * m1[0] + m0[6] * m1[1] + m0[10] * m1[2] + m0[14] * m1[3];
