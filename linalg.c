@@ -35,35 +35,29 @@ void rotateFVec3(struct Quaternion q, union FVec3 *v){
 	v->z = z;
 }
 union FVec3 fvec3_add(union FVec3 a, union FVec3 b){
-	union FVec3 r = {
-		a.x+b.x,
-		a.y+b.y,
-		a.z+b.z
-	};
-	return r;
+	a.x += b.x;
+	a.y += b.y;
+	a.z += b.z;
+	return a;
 }
 union FVec3 fvec3_sub(union FVec3 a, union FVec3 b){
-	union FVec3 r = {
-		a.x-b.x,
-		a.y-b.y,
-		a.z-b.z
-	};
-	return r;
+	a.x -= b.x;
+	a.y -= b.y;
+	a.z -= b.z;
+	return a;
 }
 union FVec3 fvec3_scale(float s, union FVec3 v){
-	return (union FVec3){
-		s*v.x,
-			s*v.y,
-			s*v.z
-	};
+	v.x *= s;
+	v.y *= s;
+	v.z *= s;
+	return v;
 }
 union FVec3 fvec3_norm(union FVec3 v){
 	float d = 1.0f / sqrtf(v.x*v.x + v.y*v.y + v.z*v.z);
-	return (union FVec3){
-		d*v.x,
-			d*v.y,
-			d*v.z
-	};
+	v.x *= d;
+	v.y *= d;
+	v.z *= d;
+	return v;
 }
 union FVec3 fvec3_rescale(float s, union FVec3 v){
 	return fvec3_scale(s, fvec3_norm(v));
