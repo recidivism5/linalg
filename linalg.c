@@ -3,28 +3,28 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-void fvec3Normalize(union FVec3 *v){
+void fvec3Normalize(FVec3 *v){
 	float d = 1.0f / sqrtf(v->x*v->x + v->y*v->y + v->z*v->z);
 	v->x *= d;
 	v->y *= d;
 	v->z *= d;
 }
-void fvec3InvScale(union FVec3 s, union FVec3 *out){
+void fvec3InvScale(FVec3 s, FVec3 *out){
 	out->x = 1.0f / s.x;
 	out->y = 1.0f / s.y;
 	out->z = 1.0f / s.z;
 }
-void fvec3Scale(union FVec3 s, union FVec3 *out){
+void fvec3Scale(FVec3 s, FVec3 *out){
 	out->x *= s.x;
 	out->y *= s.y;
 	out->z *= s.z;
 }
-void fvec3Add(union FVec3 *dst, union FVec3 src){
+void fvec3Add(FVec3 *dst, FVec3 src){
 	dst->x += src.x;
 	dst->y += src.y;
 	dst->z += src.z;
 }
-void rotateFVec3(struct Quaternion q, union FVec3 *v){
+void rotateFVec3(Quaternion q, FVec3 *v){
 	float x,y,z;
 	x = 2*(q.y*q.w*v->z - q.z*q.w*v->y + q.y*q.x*v->y + q.z*q.x*v->z) + q.w*q.w*v->x + q.x*q.x*v->x - q.y*q.y*v->x - q.z*q.z*v->x;
 	y = 2*(q.x*q.y*v->x + q.z*q.y*v->z + q.w*q.z*v->x - q.x*q.w*v->z) + q.w*q.w*v->y - q.x*q.x*v->y + q.y*q.y*v->y - q.z*q.z*v->y;
@@ -34,43 +34,43 @@ void rotateFVec3(struct Quaternion q, union FVec3 *v){
 	v->y = y;
 	v->z = z;
 }
-union FVec3 fvec3_add(union FVec3 a, union FVec3 b){
+FVec3 fvec3_add(FVec3 a, FVec3 b){
 	a.x += b.x;
 	a.y += b.y;
 	a.z += b.z;
 	return a;
 }
-union FVec3 fvec3_sub(union FVec3 a, union FVec3 b){
+FVec3 fvec3_sub(FVec3 a, FVec3 b){
 	a.x -= b.x;
 	a.y -= b.y;
 	a.z -= b.z;
 	return a;
 }
-union FVec3 fvec3_scale(float s, union FVec3 v){
+FVec3 fvec3_scale(float s, FVec3 v){
 	v.x *= s;
 	v.y *= s;
 	v.z *= s;
 	return v;
 }
-union FVec3 fvec3_norm(union FVec3 v){
+FVec3 fvec3_norm(FVec3 v){
 	float d = 1.0f / sqrtf(v.x*v.x + v.y*v.y + v.z*v.z);
 	v.x *= d;
 	v.y *= d;
 	v.z *= d;
 	return v;
 }
-union FVec3 fvec3_rescale(float s, union FVec3 v){
+FVec3 fvec3_rescale(float s, FVec3 v){
 	return fvec3_scale(s, fvec3_norm(v));
 }
-union FVec3 fvec3_midpoint(union FVec3 a, union FVec3 b){
-	union FVec3 j = fvec3_sub(b,a);
+FVec3 fvec3_midpoint(FVec3 a, FVec3 b){
+	FVec3 j = fvec3_sub(b,a);
 	j.x *= 0.5f;
 	j.y *= 0.5f;
 	j.z *= 0.5f;
 	return fvec3_add(a,j);
 }
-union FVec3 fvec3_rotated(union FVec3 v, struct Quaternion q){
-	union FVec3 r;
+FVec3 fvec3_rotated(FVec3 v, Quaternion q){
+	FVec3 r;
 	float 
 		ww = q.w*q.w,
 		xx = q.x*q.x,
@@ -91,16 +91,16 @@ union FVec3 fvec3_rotated(union FVec3 v, struct Quaternion q){
 	r.z = 2*(xz*v.x + yz*v.y - wy*v.x + wx*v.y) + ww*v.z - xx*v.z - yy*v.z + zz*v.z;
 	return r;
 }
-float fvec3_length(union FVec3 v){
+float fvec3_length(FVec3 v){
 	return sqrtf(v.x*v.x + v.y*v.y + v.z*v.z);
 }
-float fvec3_dist(union FVec3 a, union FVec3 b){
+float fvec3_dist(FVec3 a, FVec3 b){
 	return fvec3_length(fvec3_sub(a,b));
 }
-float fvec3_angle_between(union FVec3 a, union FVec3 b){
+float fvec3_angle_between(FVec3 a, FVec3 b){
 	return acosf((a.x*b.x + a.y*b.y + a.z*b.z)/(fvec3_length(a)*fvec3_length(b)));
 }
-void clampEuler(union FVec3 *e){
+void clampEuler(FVec3 *e){
 	float fp = 4*M_PI;
 	for (int i = 0; i < 3; i++){
 		if (e->arr[i] > fp){
@@ -110,65 +110,65 @@ void clampEuler(union FVec3 *e){
 		}
 	}
 }
-void quatSetIdentity(struct Quaternion *q){
+void quatSetIdentity(Quaternion *q){
 	q->w = 1;
 	q->x = 0;
 	q->y = 0;
 	q->z = 0;
 }
-void quatInverse(struct Quaternion q, struct Quaternion *out){
+void quatInverse(Quaternion q, Quaternion *out){
 	out->w = q.w;
 	out->x = -q.x;
 	out->y = -q.y;
 	out->z = -q.z;
 }
-void quatNormalize(struct Quaternion *q){
+void quatNormalize(Quaternion *q){
 	float d = 1.0f / sqrtf(q->w*q->w + q->x*q->x + q->y*q->y + q->z*q->z);
 	q->w *= d;
 	q->x *= d;
 	q->y *= d;
 	q->z *= d;
 }
-struct Quaternion quat_from(union FVec3 axis, float angle){
+Quaternion quat_from(FVec3 axis, float angle){
 	float s = sinf(angle*0.5f);
-	struct Quaternion q;
+	Quaternion q;
 	q.w = cosf(angle*0.5f);
 	q.x = s*axis.x;
 	q.y = s*axis.y;
 	q.z = s*axis.z;
 	return q;
 }
-struct Quaternion quat_fromX(float angle){
-	struct Quaternion q;
+Quaternion quat_fromX(float angle){
+	Quaternion q;
 	q.w = cosf(angle * 0.5f);
 	q.x = sinf(angle * 0.5f);
 	q.y = 0.0f;
 	q.z = 0.0f;
 	return q;
 }
-struct Quaternion quat_fromY(float angle){
-	struct Quaternion q;
+Quaternion quat_fromY(float angle){
+	Quaternion q;
 	q.w = cosf(angle*0.5f);
 	q.x = 0.0f;
 	q.y = sinf(angle*0.5f);
 	q.z = 0.0f;
 	return q;
 }
-struct Quaternion quat_fromZ(float angle){
-	struct Quaternion q;
+Quaternion quat_fromZ(float angle){
+	Quaternion q;
 	q.w = cosf(angle * 0.5f);
 	q.x = 0;
 	q.y = 0;
 	q.z = sinf(angle * 0.5f);
 	return q;
 }
-void quatMult(struct Quaternion a, struct Quaternion b, struct Quaternion *out){
+void quatMult(Quaternion a, Quaternion b, Quaternion *out){
 	out->w = a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z;
 	out->x = a.x*b.w + a.w*b.x + a.y*b.z - a.z*b.y;
 	out->y = a.w*b.y - a.x*b.z + a.y*b.w + a.z*b.x;
 	out->z = a.w*b.z + a.x*b.y - a.y*b.x + a.z*b.w;
 }
-void quatFromEuler(struct Quaternion *q, union FVec3 e){
+void quatFromEuler(Quaternion *q, FVec3 e){
 	float cx = cosf(e.x * 0.5);
 	float sx = sinf(e.x * 0.5);
 	float cy = cosf(e.y * 0.5);
@@ -181,7 +181,7 @@ void quatFromEuler(struct Quaternion *q, union FVec3 e){
 	q->y = cx*sy*cz + sx*cy*sz;
 	q->z = cx*cy*sz - sx*sy*cz;
 }
-struct Quaternion quat_from_euler(union FVec3 e){
+Quaternion quat_from_euler(FVec3 e){
 	float cx = cosf(e.x * 0.5);
 	float sx = sinf(e.x * 0.5);
 	float cy = cosf(e.y * 0.5);
@@ -189,14 +189,14 @@ struct Quaternion quat_from_euler(union FVec3 e){
 	float cz = cosf(e.z * 0.5);
 	float sz = sinf(e.z * 0.5);
 
-	struct Quaternion q;
+	Quaternion q;
 	q.w = cx*cy*cz + sx*sy*sz;
 	q.x = sx*cy*cz - cx*sy*sz;
 	q.y = cx*sy*cz + sx*cy*sz;
 	q.z = cx*cy*sz - sx*sy*cz;
 	return q;
 }
-void quatToMat4(struct Quaternion q, float *m){
+void quatToMat4(Quaternion q, float *m){
 	m[0]  = 1 - 2*(q.y*q.y + q.z*q.z);
 	m[1]  = 2*(q.x*q.y + q.z*q.w);
 	m[2]  = 2*(q.x*q.z - q.y*q.w);
