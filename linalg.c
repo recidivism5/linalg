@@ -169,12 +169,12 @@ void quatMul(Quaternion a, Quaternion b, Quaternion *out){
 	out->z = a.w*b.z + a.x*b.y - a.y*b.x + a.z*b.w;
 }
 void quatFromEuler(Quaternion *q, FVec3 e){
-	float cx = cosf(e.x * 0.5);
-	float sx = sinf(e.x * 0.5);
-	float cy = cosf(e.y * 0.5);
-	float sy = sinf(e.y * 0.5);
-	float cz = cosf(e.z * 0.5);
-	float sz = sinf(e.z * 0.5);
+	float cx = cosf(e.x * 0.5f);
+	float sx = sinf(e.x * 0.5f);
+	float cy = cosf(e.y * 0.5f);
+	float sy = sinf(e.y * 0.5f);
+	float cz = cosf(e.z * 0.5f);
+	float sz = sinf(e.z * 0.5f);
 
 	q->w = cx*cy*cz + sx*sy*sz;
 	q->x = sx*cy*cz - cx*sy*sz;
@@ -182,12 +182,12 @@ void quatFromEuler(Quaternion *q, FVec3 e){
 	q->z = cx*cy*sz - sx*sy*cz;
 }
 Quaternion quat_from_euler(FVec3 e){
-	float cx = cosf(e.x * 0.5);
-	float sx = sinf(e.x * 0.5);
-	float cy = cosf(e.y * 0.5);
-	float sy = sinf(e.y * 0.5);
-	float cz = cosf(e.z * 0.5);
-	float sz = sinf(e.z * 0.5);
+	float cx = cosf(e.x * 0.5f);
+	float sx = sinf(e.x * 0.5f);
+	float cy = cosf(e.y * 0.5f);
+	float sy = sinf(e.y * 0.5f);
+	float cz = cosf(e.z * 0.5f);
+	float sz = sinf(e.z * 0.5f);
 
 	Quaternion q;
 	q.w = cx*cy*cz + sx*sy*sz;
