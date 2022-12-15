@@ -219,7 +219,7 @@ Mat4 mat4Mul(Mat4 a, Mat4 b){
 }
 Mat4 mat4LookAt(FVec3 eye, FVec3 target){
     FVec3 z = fvec3Norm(fvec3Sub(eye,target)),
-        x = fvec3Norm(fvec3Cross(z,(FVec3){0,1,0})),
-        y = fvec3Cross(x,z);
+          x = fvec3Norm(fvec3Cross(z,(FVec3){0,1,0})),
+          y = fvec3Cross(x,z);
     return mat4Mul(mat4Transpose(mat4Basis(x,y,z)),mat4Pos(fvec3Scale(eye,-1)));
 }
