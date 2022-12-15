@@ -8,10 +8,10 @@ a3 b3 c3 d3 | 3 7 11 15
 mat4Perspective and mat4LookAt assume a right-handed
 coordinate system with camera looking down the
 negative Z axis (OpenGL style):
-	   y
-	   |
-	   |
-	   |_ _ _ _ x
+	    y
+	    |
+	    |
+	    |_ _ _ _ x
 	   /
 	  /
 	 /
