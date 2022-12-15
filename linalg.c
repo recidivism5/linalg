@@ -1,4 +1,4 @@
-#include "linalg_mini.h"
+#include "linalg.h"
 
 float fvec3Dot(FVec3 a, FVec3 b){
 	return a.x*b.x + a.y*b.y + a.z*b.z;
