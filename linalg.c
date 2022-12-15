@@ -62,7 +62,7 @@ float fvec3AngleBetween(FVec3 a, FVec3 b){
 FVec3 clampEuler(FVec3 e){
     float fp = 4*M_PI;
     FOR(i,3) if (e.arr[i] > fp) e.arr[i] -= fp;
-           else if (e.arr[i] < -fp) e.arr[i] += fp;
+             else if (e.arr[i] < -fp) e.arr[i] += fp;
     return e;
 }
 Quaternion quatInverse(Quaternion q){
@@ -71,7 +71,7 @@ Quaternion quatInverse(Quaternion q){
 }
 Quaternion quatNorm(Quaternion q){
     float d = 1.0f / sqrtf(q.w*q.w + q.x*q.x + q.y*q.y + q.z*q.z);
-    FOR(i,3) q.arr[i] *= d;
+    FOR(i,4) q.arr[i] *= d;
     return q;
 }
 Quaternion axisAngleToQuat(FVec3 axis, float angle){
@@ -121,9 +121,9 @@ Mat4 mat4Identity(void){
 }
 Mat4 mat4Basis(FVec3 x, FVec3 y, FVec3 z){
     Mat4 m = mat4Identity();
-    m.a0 = x.x; m.b0 = y.x; m.c0 = z.x;
-    m.a1 = x.y; m.b1 = y.y; m.c1 = z.y;
-    m.a2 = x.z; m.b2 = y.z; m.c2 = z.z;
+    m.a.vec3 = x;
+    m.b.vec3 = y;
+    m.c.vec3 = z;
     return m;
 }
 Mat4 quatToMat4(Quaternion q){
@@ -175,7 +175,7 @@ Mat4 mat4Scale(FVec3 v){
 }
 Mat4 mat4Pos(FVec3 v){
     Mat4 m = mat4Identity();
-    FOR(i,3) m.arr[3*4+i] = v.arr[i];
+    m.d.vec3 = v;
     return m;
 }
 Mat4 xToMat4(float angle){
