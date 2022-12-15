@@ -348,7 +348,7 @@ void mat4SetRotationZ(float* m, float theta){
 void mat4Lookat(float *m, float x, float y, float z, float tx, float ty, float tz){ //(x,y,z) is the camera position, (tx,ty,tz) is the target
 	float kx = tx-x,
 		ky = ty-y,
-		kz = ty-z;
+		kz = tz-z;
 	float d = 1.0f / sqrtf(kx*kx + ky*ky + kz*kz);
 	kx *= d;
 	ky *= d;
