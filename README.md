@@ -11,34 +11,34 @@ a3 b3 c3 d3 | 3 7 11 15
 mat4Perspective and mat4LookAt assume a right-handed
 coordinate system with camera looking down the
 negative Z axis (OpenGL style):
-	   y
-	   |
-	   |
-	   |_ _ _ _ x
-	   /
-	  /
-	 /
-	z
+       y
+       |
+       |
+       |_ _ _ _ x
+       /
+      /
+     /
+    z
 
 */
 #define _USE_MATH_DEFINES
 #include <math.h>
 
 typedef union u_FVec3{
-	struct {float x, y, z;};
-	float arr[3];
+    struct {float x, y, z;};
+    float arr[3];
 }FVec3;
 typedef union u_Quaternion{
-	struct {float w, x, y, z;};
-	float arr[4];
+    struct {float w, x, y, z;};
+    float arr[4];
 }Quaternion;
 typedef union u_Mat4{
-	struct {float 
-		a0,a1,a2,a3,
-		b0,b1,b2,b3,
-		c0,c1,c2,c3,
-		d0,d1,d2,d3;};
-	float arr[16];
+    struct {float 
+        a0,a1,a2,a3,
+        b0,b1,b2,b3,
+        c0,c1,c2,c3,
+        d0,d1,d2,d3;};
+    float arr[16];
 }Mat4;
 
 float fvec3Dot(FVec3 a, FVec3 b);
