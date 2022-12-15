@@ -1,4 +1,5 @@
 #include "linalg.h"
+#define FOR(var,count) for(int var = 0; var < (count); var++)
 
 float fvec3Dot(FVec3 a, FVec3 b){
     return a.x*b.x + a.y*b.y + a.z*b.z;
@@ -7,23 +8,20 @@ float fvec3Length(FVec3 v){
     return sqrtf(fvec3Dot(v,v));
 }
 FVec3 fvec3Cross(FVec3 a, FVec3 b){
-    return (FVec3){
-        a.y*b.z - a.z*b.y,
-        a.z*b.x - a.x*b.z,
-        a.x*b.y - a.y*b.x
-    };
+    return (FVec3){a.y*b.z - a.z*b.y,
+                   a.z*b.x - a.x*b.z,
+                   a.x*b.y - a.y*b.x};
 }
-#define F for(int i = 0; i < 3; i++)
 FVec3 fvec3Add(FVec3 a, FVec3 b){
-    F a.arr[i] += b.arr[i];
+    FOR(i,3) a.arr[i] += b.arr[i];
     return a;
 }
 FVec3 fvec3Sub(FVec3 a, FVec3 b){
-    F a.arr[i] -= b.arr[i];
+    FOR(i,3) a.arr[i] -= b.arr[i];
     return a;
 }
 FVec3 fvec3Scale(FVec3 v, float s){
-    F v.arr[i] *= s;
+    FOR(i,3) v.arr[i] *= s;
     return v;
 }
 FVec3 fvec3Norm(FVec3 v){
@@ -63,25 +61,24 @@ float fvec3AngleBetween(FVec3 a, FVec3 b){
 }
 FVec3 clampEuler(FVec3 e){
     float fp = 4*M_PI;
-    for (int i = 0; i < 3; i++)
-        if (e.arr[i] > fp) e.arr[i] -= fp;
-        else if (e.arr[i] < -fp) e.arr[i] += fp;
+    FOR(i,3) if (e.arr[i] > fp) e.arr[i] -= fp;
+           else if (e.arr[i] < -fp) e.arr[i] += fp;
     return e;
 }
 Quaternion quatInverse(Quaternion q){
-    F q.arr[1+i] = -q.arr[1+i];
+    FOR(i,3) q.arr[1+i] = -q.arr[1+i];
     return q;
 }
 Quaternion quatNorm(Quaternion q){
     float d = 1.0f / sqrtf(q.w*q.w + q.x*q.x + q.y*q.y + q.z*q.z);
-    F q.arr[i] *= d;
+    FOR(i,3) q.arr[i] *= d;
     return q;
 }
 Quaternion axisAngleToQuat(FVec3 axis, float angle){
     float s = sinf(angle*0.5f);
     Quaternion q;
     q.w = cosf(angle*0.5f);
-    F q.arr[1+i] = s*axis.arr[i];
+    FOR(i,3) q.arr[1+i] = s*axis.arr[i];
     return q;
 }
 Quaternion xToQuat(float angle){
@@ -117,12 +114,10 @@ Quaternion eulerToQuat(FVec3 e){
     return q;
 }
 Mat4 mat4Identity(void){
-    return (Mat4){
-        1,0,0,0,
-        0,1,0,0,
-        0,0,1,0,
-        0,0,0,1
-    };
+    return (Mat4){1,0,0,0,
+                  0,1,0,0,
+                  0,0,1,0,
+                  0,0,0,1};
 }
 Mat4 mat4Basis(FVec3 x, FVec3 y, FVec3 z){
     Mat4 m = mat4Identity();
@@ -180,7 +175,7 @@ Mat4 mat4Scale(FVec3 v){
 }
 Mat4 mat4Pos(FVec3 v){
     Mat4 m = mat4Identity();
-    F m.arr[3*4+i] = v.arr[i];
+    FOR(i,3) m.arr[3*4+i] = v.arr[i];
     return m;
 }
 Mat4 xToMat4(float angle){
@@ -212,9 +207,7 @@ Mat4 zToMat4(float angle){
 }
 Mat4 mat4Mul(Mat4 a, Mat4 b){
     Mat4 m;
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++)
-            m.arr[i*4+j] = a.arr[j]*b.arr[i*4] + a.arr[j+4]*b.arr[i*4+1] + a.arr[j+8]*b.arr[i*4+2] + a.arr[j+12]*b.arr[i*4+3];
+    FOR(i,4) FOR(j,4) m.arr[i*4+j] = a.arr[j]*b.arr[i*4] + a.arr[j+4]*b.arr[i*4+1] + a.arr[j+8]*b.arr[i*4+2] + a.arr[j+12]*b.arr[i*4+3];
     return m;
 }
 Mat4 mat4LookAt(FVec3 eye, FVec3 target){
