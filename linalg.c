@@ -96,15 +96,6 @@ Quaternion axisAngleToQuat(FVec3 axis, float angle){
 	q.z = s*axis.z;
 	return q;
 }
-Quaternion xToQuat(float angle){
-	return axisAngleToQuat((FVec3){1,0,0},angle);
-}
-Quaternion yToQuat(float angle){
-	return axisAngleToQuat((FVec3){0,1,0},angle);
-}
-Quaternion zToQuat(float angle){
-	return axisAngleToQuat((FVec3){0,0,1},angle);
-}
 Quaternion quatMul(Quaternion a, Quaternion b){
 	Quaternion r;
 	r.w = a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z;
@@ -197,32 +188,14 @@ Mat4 mat4Pos(FVec3 v){
 	m.d2 = v.z;
 	return m;
 }
-Mat4 xToMat4(float angle){
-	Mat4 m = mat4Identity();
-	float s = sinf(angle), c = cosf(angle);
-	m.b1 = c;
-	m.b2 = s;
-	m.c1 = -s;
-	m.c2 = c;
-	return m;
-}
-Mat4 yToMat4(float angle){
-	Mat4 m = mat4Identity();
-	float s = sinf(angle), c = cosf(angle);
-	m.a0 = c;
-	m.a2 = -s;
-	m.c0 = s;
-	m.c2 = c;
-	return m;
-}
-Mat4 zToMat4(float angle){
-	Mat4 m = mat4Identity();
-	float s = sinf(angle), c = cosf(angle);
-	m.a0 = c;
-	m.a1 = s;
-	m.b0 = -s;
-	m.b1 = c;
-	return m;
+Mat4 eulerToMat4(FVec3 e){
+	float cx = cosf(e.x), sx = sinf(e.x),
+          cy = cosf(e.y), sy = sinf(e.y),
+          cz = cosf(e.z), sz = sinf(e.z);
+    return (Mat4){cz*cx,sx, -sz*cx, 0,
+                  -cz*sx*cy+sz*sy, cx*cy, sz*sx*cy+cz*sy, 0,
+                  cz*sx*sy+sz*cy, -cx*sy, -sz*sx*sy+cz*cy, 0,
+                  0,0,0,1};
 }
 Mat4 mat4Mul(Mat4 a, Mat4 b){
 	Mat4 m;
