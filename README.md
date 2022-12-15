@@ -69,7 +69,7 @@ Quaternion zToQuat(float angle);
 Quaternion quatMul(Quaternion a, Quaternion b);
 Quaternion eulerToQuat(FVec3 e);
 Mat4 mat4Identity(void);
-Mat4 mat4Basis(FVec3 i, FVec3 j, FVec3 k);
+Mat4 mat4Basis(FVec3 x, FVec3 y, FVec3 z);
 Mat4 quatToMat4(Quaternion q);
 Mat4 mat4Transpose(Mat4 m);
 Mat4 mat4Perspective(float fovRadians, float aspectRatio, float near, float far);
