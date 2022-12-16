@@ -76,3 +76,5 @@ Mat4 eulerToMat4(FVec3 e);
 Mat4 mat4Mul(Mat4 a, Mat4 b);
 Mat4 mat4LookAt(FVec3 eye, FVec3 target);
 ```
+
+This is the crazyMode version where I compressed the code further. Also I made a minified version called linalg_mini.c.
